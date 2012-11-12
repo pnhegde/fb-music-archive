@@ -1,0 +1,92 @@
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+   * {
+    outline: 0px;
+    margin: 0px;
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 13px;
+   }
+
+   .bold {
+    font-weight: bold;
+   }
+
+   .normal-text {
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 13px;
+   }
+
+   .note-list {
+    list-style-type: none;
+    overflow: auto;
+   }
+
+   .note {
+    width: 205px;
+    min-height: 210px;
+    background-color: #FFFF88;
+    float: left;
+    margin: 10px;
+
+    -webkit-box-shadow:  0px 0px 6px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:  0px 0px 6px 2px rgba(0, 0, 0, 0.3); 
+    -o-box-shadow:  0px 0px 6px 2px rgba(0, 0, 0, 0.3); 
+    box-shadow:  0px 0px 6px 2px rgba(0, 0, 0, 0.3);
+
+    /*-webkit-transition: all 500ms ease;
+    -moz-transition: all 500ms ease;
+    -ms-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
+    transition: all 500ms ease;*/
+   }
+
+   .note:hover {
+    /*-moz-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+    -webkit-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+    -o-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+    -ms-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+    transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);*/
+   }
+
+   .note-textarea, .note-textarea:focus {
+    width: 170px;
+    min-height: 170px;
+    position: relative;
+    top: 10px;
+    display: block;
+    margin: auto;
+    resize: none;
+    outline: 0px;
+    border: 0px;
+    background-color: #FFFF88;
+    font-family: 'Satisfy', cursive;
+    font-size: 20px;
+    -webkit-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0); 
+    -moz-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+    -o-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+    box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+   }
+
+   .note-menu {
+    list-style-type: none;
+    overflow: auto;
+   }
+
+   .note-menu-item {
+    width: 52px;
+    margin-top: 5px;
+    font-size: 12px;
+    font-family: 'Droid Sans', sans-serif;
+    color: #777;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+   }
+
+   .note-menu-item:hover {
+    text-decoration: underline;
+   }
+

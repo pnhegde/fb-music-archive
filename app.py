@@ -83,9 +83,9 @@ def deleteNote():
 
     response =  []
     for result in results:
-        getNote(result)
+        note = snotes.getNote(result)
 
-    # Get Note and form JSON and return
+    
 
 
     return json.dumps(response)  

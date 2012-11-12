@@ -207,7 +207,7 @@ class SmartNotes:
         print similarity
         return similarity
 
-    def getSimilarItems(id, topN):
+    def getSimilarItems(self, id, topN):
         """
             Returns a list of topN
             notes similar to the note
@@ -224,6 +224,14 @@ class SmartNotes:
         # Sorting the dictionary
         # http://stackoverflow.com/questions/613183/python-sort-a-dictionary-by-value
         return dict(sorted(sortedResult.iteritems(), key=operator.itemgetter(1)).reverse()[:topN])
+
+
+    def getNotes(self, id):
+        """
+            Returns the note for
+            the id passed
+        """
+        return this.colNotes.find({"_id" : bson.objectid.ObjectId(id)}, {"_id" : 0, "note" : 1})["note"]
 
 
 
