@@ -90,3 +90,22 @@
     text-decoration: underline;
    }
 
+   .error-message {
+    position: fixed;
+    width: 200px;
+    padding: 10px;
+    left: -600px;
+    color: #B80000;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: right;
+
+    -webkit-border-radius: 0px 15px 15px 0px;
+    border-radius: 0px 15px 15px 0px;
+
+    -webkit-transition: all 1000ms ease;
+    -moz-transition: all 1000ms ease;
+    -ms-transition: all 1000ms ease;
+    -o-transition: all 1000ms ease;
+    transition: all 1000ms ease;
+   }
+

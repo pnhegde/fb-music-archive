@@ -66,6 +66,7 @@ def deleteNote():
 
 
 @app.route("/similar/", methods=['GET', 'POST'])
+def getSimilarNotes():
     """
         Return a set of similar notes
         based on the input id and topN
@@ -81,14 +82,77 @@ def deleteNote():
 
     results = snotes.getSimilarItems(id, topN)
 
-    response =  []
-    for result in results:
-        note = snotes.getNote(result)
+    response =  {}
+    response["success"] = "true"
+    response["num"] = len(results)
+    response["notes"] = []
+    for (resultId, sim) in results:
+        note = snotes.getNote(resultId)
+        temp = {}
+        temp["id"] = resultId
+        temp["similarity"] = sim
+        temp["note"] = note
+        response["notes"].append(temp)
 
-    
+    return json.dumps(response)
 
+@app.route("/getnote/", methods=['GET', 'POST'])
+def getNote():
+    """
+        Returns the specified number of notes.
+        if less returns everything.
+    """
+    if request.method == 'POST':
+        # POST request
+        num = request.form['num']  # Fetching the num of notes to be fetched
+    else:
+        # GET request
+       num = request.args.get('num', '')  # Fetching the num of notes to be fetched
 
-    return json.dumps(response)  
+    notes = snotes.getNotes(int(num))
+
+    print "got notes"
+    response = {}
+    response["success"] = "true"
+
+    # Bug in pymongo?? !mportant <-- check this ASAP
+    # response["num"] = notes.count()  # As notes is a cursor object (generator)
+
+    response["notes"] = []
+
+    count = 0
+    for note in notes:
+        # note is a dictionary here
+        temp = {}
+        print "each note"
+        temp["id"] = str(note["_id"])
+        print "got id"
+        temp["note"] = note["note"]
+        print "got note"
+        response["notes"].append(temp)
+        count += 1
+
+    response["num"] = count
+
+    return json.dumps(response)
+
+@app.route("/updatenote/", methods=['GET', 'POST'])
+def updateNote():
+    """
+        Updates the note with the
+        new content without changing the id
+    """
+    if request.method == 'POST':
+        # POST request
+        id = request.form['id']  # Fetching the id of notes to be updated
+        note = request.form["note"]
+
+    else:
+        # GET request
+       id = request.args.get('id', '')  # Fetching the id of notes to be updated
+       note = request.args.get('note', '')
+
+    return snotes.updateNote(id, note, request.remote_addr)
 
     
 def insertNote(note, ipAddr, tStamp):

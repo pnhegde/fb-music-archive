@@ -5,6 +5,7 @@ import re
 import bson
 import json
 import operator
+import datetime
 
 # NLTK imports
 from nltk import PorterStemmer
@@ -107,11 +108,14 @@ class SmartNotes:
         self.colNotes.remove({"_id" : id})  # Delete an object based on Object id
 
         #Also remove from 'sim' collection
-        #*********************************
-        #                                *
-        #      YET TO BE IMPLEMENTED     *
-        #                                *
-        #*********************************
+        self.colSim.remove({"_id" : id})
+        # Update sim noteList and all other objects about removal
+        # http://stackoverflow.com/questions/1740023/mongodb-how-to-update-multiple-documents-with-a-single-command
+        # http://www.ryannitz.org/tech-notes/2009/08/10/mongodb-wildcard-query/
+        self.colSim.update({"type" : "note"}, {"$pull" : {"similarity" : {str(id) : re.compile(".*")}}}, multi=True)  # Multi update (4th param true)
+
+        # Update the noteList
+        self.colSim.update({"type" : "noteList"}, {"$pull" : {"noteList" : str(id)}})
 
         # Successfully deleted. returning a bson object
         return json.dumps({"success" : "true", "id" : str(id)})
@@ -174,9 +178,9 @@ class SmartNotes:
 
             # Store the similarity value in both noteA's list and noteB's list
             # Updating noteA
-            self.colSim.update({"_id" : bson.objectid.ObjectId(id)}, {"$push" : {"similarity" : {noteId : similarityValue}}})
+            self.colSim.update({"_id" : bson.objectid.ObjectId(id)}, {"$push" : {"similarity" : {noteId : str(similarityValue)}}})
             # Updating noteB
-            self.colSim.update({"_id" : bson.objectid.ObjectId(noteId)}, {"$push" : {"similarity" : {id : similarityValue}}})
+            self.colSim.update({"_id" : bson.objectid.ObjectId(noteId)}, {"$push" : {"similarity" : {id : str(similarityValue)}}})
 
 
         # Lastly, add the newly added note's id to the noteList
@@ -213,25 +217,84 @@ class SmartNotes:
             notes similar to the note
             of the passed id
         """
-        result = this.colSim.find({"_id" : bson.objectid.ObjectId(id)}, {"similarity" : 1, "_id" : 0})["similarity"]
+        result = self.colSim.find({"_id" : bson.objectid.ObjectId(id)}, {"similarity" : 1, "_id" : 0}).next()["similarity"]
         sortedResult = {}
 
-        for sim in result:
+        # print result
+
+        for rdict in result:
             # Converting list of dictionaries
             # to a single dictionary
-            sortedResult[sim] = result[sim]
+            sortedResult[rdict.keys()[0]] = float(rdict.values()[0])
 
+        # print sortedResult
+        # print(len(sortedResult))
+        # print "*"*10
         # Sorting the dictionary
         # http://stackoverflow.com/questions/613183/python-sort-a-dictionary-by-value
-        return dict(sorted(sortedResult.iteritems(), key=operator.itemgetter(1)).reverse()[:topN])
+        return sorted(sortedResult.iteritems(), key=operator.itemgetter(1), reverse=True)[:topN]
+        # return dict(sorted(sortedResult.iteritems(), key=operator.itemgetter(1)).reverse())
 
 
-    def getNotes(self, id):
+    def getNote(self, id):
         """
             Returns the note for
             the id passed
         """
-        return this.colNotes.find({"_id" : bson.objectid.ObjectId(id)}, {"_id" : 0, "note" : 1})["note"]
+        return self.colNotes.find({"_id" : bson.objectid.ObjectId(id)}, {"_id" : 0, "note" : 1}).next()["note"]
+
+    def getNotes(self, num):
+        """
+            Returns 'num' number of
+            notes from the database
+        """
+        # Actually should return based on timestamp.
+        # But at the moment will return top 'num' results
+        return self.colNotes.find({}, {"_id" : 1, "note" : 1}).limit(num)
+
+    def updateNote(self, id, note, ipaddr):
+        """
+            Updates the contents, tags, 
+            timestamp, ipaddr for a given id
+        """
+        # Remove old data
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "note" : 1}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "tlist" : 1}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "ipaddr" : 1}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "tstamp" : 1}})
+
+        # Generating timestamp
+        time =  datetime.datetime.now()
+        tStamp = '%s/%s/%s-%s:%s:%s' % (time.month, time.day, time.year, time.hour, time.minute, time.second)
+
+        # Generating tlist
+        tList = self.generateTerms(note)
+
+        # Update new data
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "note" : note}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "tlist" : tList}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "ipaddr" : ipaddr}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "tstamp" : tStamp}})
+
+        # Updating sim
+        #Also remove from 'sim' collection
+        self.colSim.remove({"_id" : id})
+        # Update sim noteList and all other objects about removal
+        # http://stackoverflow.com/questions/1740023/mongodb-how-to-update-multiple-documents-with-a-single-command
+        self.colSim.update({"type" : "note"}, {"$pull" : {"similarity" : {str(id) : re.compile(".*")}}}, multi=True)  # Multi update (4th param true)
+
+        # Update the noteList
+        self.colSim.update({"type" : "noteList"}, {"$pull" : {"noteList" : str(id)}})
+
+
+        self.generateSimilarityMertic(str(id))
+
+        response = {}
+        response["success"] = "true"
+        response["id"] = str(id)
+        return json.dumps(response)
+
+
 
 
 

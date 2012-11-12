@@ -17,5 +17,5 @@ SmartNotes depends on the following,
 Written for the love of building smart applications!
 
 Sandeep Raju P
-[me@sandeepraju.in](mailto:me@sandeepraju.in)
-[http://sandeepraju.in](http://sandeepraju.in)
+* [me@sandeepraju.in](mailto:me@sandeepraju.in)
+* [sandeepraju.in](http://sandeepraju.in)
