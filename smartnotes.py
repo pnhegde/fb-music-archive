@@ -6,12 +6,18 @@ import bson
 import json
 import operator
 import datetime
+import math
+import time
 
 # NLTK imports
 from nltk import PorterStemmer
 
 # Pymongo imports
 from pymongo import Connection
+
+# Fuzzywuzzy imports
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 class SmartNotes:
     """
@@ -87,6 +93,7 @@ class SmartNotes:
             calculate similarity with all
             other notes.
         """
+        note["ts"] = int(time.mktime(time.gmtime()))
         id = self.colNotes.insert(note)  # Insert the note into the database
 
         self.generateSimilarityMertic(str(id))  # update the similarity metic collection 'sim'
@@ -140,8 +147,8 @@ class SmartNotes:
         # Add only relevant words into term list
         for word in noteWords:
             # For each word, if not in stop words append to list
-            if word.strip() not in stopWords:
-                termList.append(word.strip())
+            if word.strip().lower() not in stopWords:
+                termList.append(word.strip().lower())
 
         stemmedTermList = []
         # Stem the term list
@@ -223,9 +230,11 @@ class SmartNotes:
         # print result
 
         for rdict in result:
-            # Converting list of dictionaries
-            # to a single dictionary
-            sortedResult[rdict.keys()[0]] = float(rdict.values()[0])
+            # Send only non zero similarities
+            if math.ceil(float(rdict.values()[0])) > 0:
+                # Converting list of dictionaries
+                # to a single dictionary
+                sortedResult[rdict.keys()[0]] = float(rdict.values()[0])
 
         # print sortedResult
         # print(len(sortedResult))
@@ -250,7 +259,7 @@ class SmartNotes:
         """
         # Actually should return based on timestamp.
         # But at the moment will return top 'num' results
-        return self.colNotes.find({}, {"_id" : 1, "note" : 1}).limit(num)
+        return self.colNotes.find({}, {"_id" : 1, "note" : 1}, limit=num, sort=[("ts", -1)]) #.sort({"$natural" : -1}) # .limit(num)
 
     def updateNote(self, id, note, ipaddr):
         """
@@ -262,10 +271,11 @@ class SmartNotes:
         self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "tlist" : 1}})
         self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "ipaddr" : 1}})
         self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "tstamp" : 1}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$unset" : { "ts" : 1}})
 
         # Generating timestamp
-        time =  datetime.datetime.now()
-        tStamp = '%s/%s/%s-%s:%s:%s' % (time.month, time.day, time.year, time.hour, time.minute, time.second)
+        timeNow =  datetime.datetime.now()
+        tStamp = '%s/%s/%s-%s:%s:%s' % (timeNow.month, timeNow.day, timeNow.year, timeNow.hour, timeNow.minute, timeNow.second)
 
         # Generating tlist
         tList = self.generateTerms(note)
@@ -275,6 +285,7 @@ class SmartNotes:
         self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "tlist" : tList}})
         self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "ipaddr" : ipaddr}})
         self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "tstamp" : tStamp}})
+        self.colNotes.update({"_id" : bson.objectid.ObjectId(id)}, {"$set" : { "ts" : int(time.mktime(time.gmtime()))}})
 
         # Updating sim
         #Also remove from 'sim' collection
@@ -293,6 +304,88 @@ class SmartNotes:
         response["success"] = "true"
         response["id"] = str(id)
         return json.dumps(response)
+
+
+    def search(self, userQuery):
+        """
+            Searches the database for the query.
+            The process is as follows.
+            for each word 'input' in the query,
+            input -> tolower -> remove stop words -> stem -> Levenshtein -> dblookup
+        """
+        # Stop words from http://www.textfixer.com/resources/common-english-words.txt
+        stopWords = "a,able,about,across,after,all,almost,also,am,among,an,and,any,are,as,at,be,because,been,but,by,can,cannot,could,dear,did,do,does,either,else,ever,every,for,from,get,got,had,has,have,he,her,hers,him,his,how,however,i,if,in,into,is,it,its,just,least,let,like,likely,may,me,might,most,must,my,neither,no,nor,not,of,off,often,on,only,or,other,our,own,rather,said,say,says,she,should,since,so,some,than,that,the,their,them,then,there,these,they,this,tis,to,too,twas,us,wants,was,we,were,what,when,where,which,while,who,whom,why,will,with,would,yet,you,your"
+        stopWords = stopWords.split(",")
+
+        # Replace all special symbols with spaces in the note and converitng to lowercase
+        userQuery = re.sub('[^a-zA-Z0-9\n\.]', ' ', userQuery.lower())
+
+        userQueryList = userQuery.split()  # Splits based on multiple spaces and tab!
+
+        queryList = []
+
+        # Removing stop words and stemming at one shot!
+        for queryWord in userQueryList:
+            if queryWord.strip() not in stopWords:
+                queryList.append(PorterStemmer().stem_word(queryWord.strip()))
+
+        print queryList
+        noOfUserQueryWords = len(queryList)
+
+        resultCount = {}
+        resultForSorting = {}
+
+        for query in queryList:
+            # Query the DB, if present, add its id to resultCount
+
+            pass  # Add Levenshtein fuzzy comparision here! ************
+
+            results = self.colNotes.find({"tlist" : query},{"_id" :1, "note" : 1}, sort=[("ts", -1)])  #.sort({"ts" : -1})
+            for result in results:
+                if resultCount.has_key(str(result["_id"])):
+                    # Update the count
+                    resultCount[str(result["_id"])][1] += 1
+                    resultForSorting[str(result["_id"])] += 1
+                else:
+                    # Update note contents and count
+                    resultCount[str(result["_id"])] = [result["note"], 1]
+                    resultForSorting[str(result["_id"])] = 1
+
+        # Sorted results on frequency of occurence!
+        sortedResults = sorted(resultForSorting.iteritems(), key=operator.itemgetter(1), reverse=True)
+
+        response = {}
+        response["success"] = "true"
+        response["num"] = len(sortedResults)
+        response["notes"] = []
+
+        # ****** SEARCH RELEVANCE SCORE ******
+        # The search relevance score is
+        # calculated as follows
+        #
+        # if N is the number of valid input query terms
+        # after removing stop words and M is the
+        # number of matches for a note.
+        #
+        # then, the relevance of a note is calculated as,
+        #
+        # relevance = M / N
+        #
+        # if all terms match, then relevance = 1
+        # if no terms match, then relevance = 0
+
+        for (id, count) in sortedResults:
+            temp = {}
+            temp["id"] = id
+            temp["score"] = float(count) / noOfUserQueryWords
+            temp["note"] = resultCount[id][0]
+            response["notes"].append(temp)
+
+        return json.dumps(response)
+
+
+
+
 
 
 

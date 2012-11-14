@@ -50,6 +50,11 @@ function bindSaveClicked(sel) {
                         bindDeleteClicked("li#xxx > .note-menu > .note-menu-item > .delete");
                         bindSimilarClicked("li#xxx > .note-menu > .note-menu-item > .similar");
                         bindKeyUp("li#xxx > .note-textarea");
+
+                        $("li#xxx > .note-menu > .note-menu-item > .delete").css({"display" : "none"});
+                        $("li#xxx > .note-menu > .note-menu-item > .similar").css({"display" : "none"});
+
+
                     }
                     else {
                         showErrorMessage();
@@ -170,6 +175,12 @@ function bindSimilarClicked(sel) {
                 </li>";
         $(".note-list").append(noteHtml);
 
+        // Binding event handlers
+        bindSaveClicked("li#" + id + " > .note-menu > .note-menu-item > .save");
+        bindDeleteClicked("li#" + id + " > .note-menu > .note-menu-item > .delete");
+        bindSimilarClicked("li#" + id + " > .note-menu > .note-menu-item > .similar");
+        bindKeyUp("li#" + id + " > .note-textarea");
+
         // Set some style to make it unique
         $("#" + id).css({"background-color" : "#DDEEFF"});
         $("#" + id).children(".note > .note-textarea").css({"background-color" : "#DDEEFF"});
@@ -183,7 +194,7 @@ function bindSimilarClicked(sel) {
                 // success!
                 for(var i = 0; i < data["num"]; i++) {
                     var noteHtml = "<li class=\"note\" id=\"" + data["notes"][i]["id"] + "\" new=\"false\" mod=\"false\"> \
-                    <div class=\"corner\"></div> \
+                    <div title=\"Similarity Value\" class=\"corner\"><span class=\"corner-text\">" + Math.round(parseFloat(data["notes"][i]["similarity"]) * 100)/100 + "</span></div> \
                     <textarea class=\"note-textarea\" placeholder=\"Enter your note\">" + data["notes"][i]["note"] + "</textarea> \
                     <ul class=\"note-menu\"> \
                         <li class=\"note-menu-item\"><span class=\"save note-menu-item-text\">save</span></li> \
@@ -233,7 +244,7 @@ $("document").ready(function() {
     bindKeyUp("li#xxx > .note-textarea");
 
     // Fetch all (n) notes to display
-    $.get("getnote/", {"num" : "25"})
+    $.get("getnote/", {"num" : "100"})
     .success(function(data) {
         data = JSON.parse(data);
         if(data["success"] == "true") {
@@ -267,6 +278,99 @@ $("document").ready(function() {
         showErrorMessage();
     });
 
+    $(".search-query").keydown(function(e) {
+        if(e.keyCode == 13) {
+            // Enter key was pressed. initiate search!
+            if($(this).val().length > 0) {
+                // Something is there in the search bar
+                $.get("/search/", {"q" : encodeURIComponent($(this).val())})
+                .success(function(data) {
+                    //results has arrived successfully
+                    data = JSON.parse(data);
+
+                    if(data["success"] == "true") {
+                        $(".note-list").html("");
+
+                        if(data["num"] > 0) {
+                            // more than 0 results
+
+                            for(var i = 0; i < data["num"]; i++) {
+                            var noteHtml = "<li class=\"note\" id=\"" + data["notes"][i]["id"] + "\" new=\"false\" mod=\"false\"> \
+                            <div title=\"Relevance Score\" class=\"corner\"><span class=\"corner-text\">" + Math.round(parseFloat(data["notes"][i]["score"]) * 100)/100 + "</span></div> \
+                            <textarea class=\"note-textarea\" placeholder=\"Enter your note\">" + data["notes"][i]["note"] + "</textarea> \
+                            <ul class=\"note-menu\"> \
+                                <li class=\"note-menu-item\"><span class=\"save note-menu-item-text\">save</span></li> \
+                                <li class=\"note-menu-item\"><span class=\"delete note-menu-item-text\">delete</span></li> \
+                                <li class=\"note-menu-item\"><span class=\"similar note-menu-item-text\">similar</span></li> \
+                            </ul> \
+                        </li>";
+                            $(".note-list").append(noteHtml);
+
+                            // Current note loaded! bind the event handlers now!
+                            bindSaveClicked("li#" + data["notes"][i]["id"] + " > .note-menu > .note-menu-item > .save");
+                            bindDeleteClicked("li#" + data["notes"][i]["id"] + " > .note-menu > .note-menu-item > .delete");
+                            bindSimilarClicked("li#" + data["notes"][i]["id"] + " > .note-menu > .note-menu-item > .similar");
+                            bindKeyUp("li#" + data["notes"][i]["id"] + " > .note-textarea");
+                            }
+                        }
+                        else {
+                            noResults = "<span class=\"no-result\">Sorry! No results!</span>";
+                            $(".note-list").html(noResults);
+                        }
+                    }
+                    else {
+                        showErrorMessage();
+                    }
+                })
+                .error(function() {
+                    showErrorMessage();
+                });
+            }
+            else {
+                // Return pressed but search bar is empty.
+                // So display all the notes
+
+                // But first clear current results
+                $(".note-list").html("");
+
+                // Fetch all (n) notes to display
+                $.get("getnote/", {"num" : "100"})
+                .success(function(data) {
+                    data = JSON.parse(data);
+                    if(data["success"] == "true") {
+                        // Note fetched successfully
+                        for(var i = 0; i < data["num"]; i++) {
+                            var noteHtml = "<li class=\"note\" id=\"" + data["notes"][i]["id"] + "\" new=\"false\" mod=\"false\"> \
+                                <textarea class=\"note-textarea\" placeholder=\"Enter your note\">" + data["notes"][i]["note"] + "</textarea> \
+                                <ul class=\"note-menu\"> \
+                                    <li class=\"note-menu-item\"><span class=\"save note-menu-item-text\">save</span></li> \
+                                    <li class=\"note-menu-item\"><span class=\"delete note-menu-item-text\">delete</span></li> \
+                                    <li class=\"note-menu-item\"><span class=\"similar note-menu-item-text\">similar</span></li> \
+                                </ul> \
+                            </li>";
+                            $(".note-list").append(noteHtml);
+
+                            // Current note loaded! bind the event handlers now!
+                            bindSaveClicked("li#" + data["notes"][i]["id"] + " > .note-menu > .note-menu-item > .save");
+                            bindDeleteClicked("li#" + data["notes"][i]["id"] + " > .note-menu > .note-menu-item > .delete");
+                            bindSimilarClicked("li#" + data["notes"][i]["id"] + " > .note-menu > .note-menu-item > .similar");
+                            bindKeyUp("li#" + data["notes"][i]["id"] + " > .note-textarea");
+                        }
+
+                        
+                    }
+                    else {
+                        // Was not able to fetch note successfully
+                        showErrorMessage();
+                    }
+                })
+                .error(function() {
+                    showErrorMessage();
+                });
+            }
+            
+        }
+    });
     
 
     

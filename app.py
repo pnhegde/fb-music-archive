@@ -46,7 +46,7 @@ def addNote():
         note = urllib2.unquote(request.form['note'])  # Fetching the note from the user request
     else:
         # GET request
-       note = urllib2.unquote(request.args.get('note', ''))
+        note = urllib2.unquote(request.args.get('note', ''))
 
     return insertNote(note, ipAddr, tStamp)
 
@@ -61,7 +61,7 @@ def deleteNote():
         id = urllib2.unquote(request.form['id'])  # Fetching the id of note to delete from the user request
     else:
         # GET request
-       id = urllib2.unquote(request.args.get('id', ''))
+        id = urllib2.unquote(request.args.get('id', ''))
 
     return snotes.deleteNote(id)
 
@@ -79,8 +79,8 @@ def getSimilarNotes():
         topN = urllib2.unquote(request.form["topn"])
     else:
         # GET request
-       id = urllib2.unquote(request.args.get('id', ''))
-       topN = urllib2.unquote(request.args.get('topn', ''))
+        id = urllib2.unquote(request.args.get('id', ''))
+        topN = urllib2.unquote(request.args.get('topn', ''))
 
     results = snotes.getSimilarItems(id, topN)
 
@@ -109,7 +109,7 @@ def getNote():
         num = urllib2.unquote(request.form['num'])  # Fetching the num of notes to be fetched
     else:
         # GET request
-       num = urllib2.unquote(request.args.get('num', ''))  # Fetching the num of notes to be fetched
+        num = urllib2.unquote(request.args.get('num', ''))  # Fetching the num of notes to be fetched
 
     notes = snotes.getNotes(int(num))
 
@@ -151,10 +151,26 @@ def updateNote():
 
     else:
         # GET request
-       id = urllib2.unquote(request.args.get('id', ''))  # Fetching the id of notes to be updated
-       note = urllib2.unquote(request.args.get('note', ''))
+        id = urllib2.unquote(request.args.get('id', ''))  # Fetching the id of notes to be updated
+        note = urllib2.unquote(request.args.get('note', ''))
 
     return snotes.updateNote(id, note, request.remote_addr)
+
+@app.route("/search/", methods=['GET', 'POST'])
+def search():
+    """
+        Returns the notes that match
+        the query terms
+    """
+    if request.method == 'POST':
+        # POST request
+        q = urllib2.unquote(request.form['q'])  # Fetching the query
+    else:
+        # GET request
+        q = urllib2.unquote(request.args.get('q', ''))  # Fetching the query
+
+    return snotes.search(q)
+
 
     
 def insertNote(note, ipAddr, tStamp):
@@ -194,4 +210,5 @@ def insertNote(note, ipAddr, tStamp):
 
 
 if __name__ == "__main__":
+    # app.run(host='0.0.0.0',port=8000)
     app.run(host='0.0.0.0', debug=True)
