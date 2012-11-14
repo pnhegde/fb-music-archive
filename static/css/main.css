@@ -25,6 +25,7 @@
    }
 
    .note {
+    position: relative;
     width: 205px;
     min-height: 210px;
     background-color: #FFFF88;
@@ -108,4 +109,17 @@
     -o-transition: all 1000ms ease;
     transition: all 1000ms ease;
    }
+
+   .corner {
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid transparent; 
+    border-right:20px solid red; 
+    border-top: 20px solid red;
+}
 

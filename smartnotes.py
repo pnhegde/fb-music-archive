@@ -30,8 +30,8 @@ class SmartNotes:
         self.colNotes = self.db["notes"]  # Get the reference to the notes collection
         self.colSim = self.db["sim"]  # Get the reference to the sim collection
 
-        self.resetApplication()  # For testing. Will remove this later
-        self.initializeApplication()  # Initializes by adding a doc in 'sim' collection
+        # self.resetApplication()  # For testing. Will remove this later
+        # self.initializeApplication()  # Initializes by adding a doc in 'sim' collection
 
         
 
@@ -232,7 +232,7 @@ class SmartNotes:
         # print "*"*10
         # Sorting the dictionary
         # http://stackoverflow.com/questions/613183/python-sort-a-dictionary-by-value
-        return sorted(sortedResult.iteritems(), key=operator.itemgetter(1), reverse=True)[:topN]
+        return sorted(sortedResult.iteritems(), key=operator.itemgetter(1), reverse=True)
         # return dict(sorted(sortedResult.iteritems(), key=operator.itemgetter(1)).reverse())
 
 

@@ -4,6 +4,7 @@
 import json
 import datetime
 import bson.json_util
+import urllib2
 
 # SmartNotes imports
 from smartnotes import SmartNotes
@@ -42,10 +43,10 @@ def addNote():
 
     if request.method == 'POST':
         # POST request
-        note = request.form['note']  # Fetching the note from the user request
+        note = urllib2.unquote(request.form['note'])  # Fetching the note from the user request
     else:
         # GET request
-       note = request.args.get('note', '')
+       note = urllib2.unquote(request.args.get('note', ''))
 
     return insertNote(note, ipAddr, tStamp)
 
@@ -57,10 +58,10 @@ def deleteNote():
     """
     if request.method == 'POST':
         # POST request
-        id = request.form['id']  # Fetching the id of note to delete from the user request
+        id = urllib2.unquote(request.form['id'])  # Fetching the id of note to delete from the user request
     else:
         # GET request
-       id = request.args.get('id', '')
+       id = urllib2.unquote(request.args.get('id', ''))
 
     return snotes.deleteNote(id)
 
@@ -74,12 +75,12 @@ def getSimilarNotes():
     """
     if request.method == 'POST':
         # POST request
-        id = request.form['id']  # Fetching the id of note to delete from the user request
-        topN = request.form["topn"]
+        id = urllib2.unquote(request.form['id'])  # Fetching the id of note to delete from the user request
+        topN = urllib2.unquote(request.form["topn"])
     else:
         # GET request
-       id = request.args.get('id', '')
-       topN = request.args.get('topn', '')
+       id = urllib2.unquote(request.args.get('id', ''))
+       topN = urllib2.unquote(request.args.get('topn', ''))
 
     results = snotes.getSimilarItems(id, topN)
 
@@ -105,10 +106,10 @@ def getNote():
     """
     if request.method == 'POST':
         # POST request
-        num = request.form['num']  # Fetching the num of notes to be fetched
+        num = urllib2.unquote(request.form['num'])  # Fetching the num of notes to be fetched
     else:
         # GET request
-       num = request.args.get('num', '')  # Fetching the num of notes to be fetched
+       num = urllib2.unquote(request.args.get('num', ''))  # Fetching the num of notes to be fetched
 
     notes = snotes.getNotes(int(num))
 
@@ -145,13 +146,13 @@ def updateNote():
     """
     if request.method == 'POST':
         # POST request
-        id = request.form['id']  # Fetching the id of notes to be updated
-        note = request.form["note"]
+        id = urllib2.unquote(request.form['id'])  # Fetching the id of notes to be updated
+        note = urllib2.unquote(request.form["note"])
 
     else:
         # GET request
-       id = request.args.get('id', '')  # Fetching the id of notes to be updated
-       note = request.args.get('note', '')
+       id = urllib2.unquote(request.args.get('id', ''))  # Fetching the id of notes to be updated
+       note = urllib2.unquote(request.args.get('note', ''))
 
     return snotes.updateNote(id, note, request.remote_addr)
 
