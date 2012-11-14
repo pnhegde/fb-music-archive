@@ -11,6 +11,7 @@ from smartnotes import SmartNotes
 # Flask imports
 from flask import Flask
 from flask import request
+from flask import render_template
 
 # Pymongo imports
 from pymongo import Connection
@@ -24,7 +25,7 @@ app = Flask(__name__)  # Creates a Flask application object
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    return "smartnotes! -- write notes the smart way!"
+    return render_template('index.html')
 
 
 @app.route("/addnote/", methods=['GET', 'POST'])

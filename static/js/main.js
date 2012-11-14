@@ -11,7 +11,7 @@ $("document").ready(function() {
     $("li#xxx > .note-menu > .note-menu-item > .similar").css({"display" : "none"});
 
     // Fetch all (n) notes to display
-    $.get("getnotes/", {"num" : "25"})
+    $.get("getnote/", {"num" : "25"})
     .success(function(data) {
         data = JSON.parse(data);
         if(data["success"] == "true") {
