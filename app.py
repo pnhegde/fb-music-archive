@@ -5,6 +5,7 @@ import json
 import datetime
 import bson.json_util
 import urllib2
+import os
 
 # SmartNotes imports
 from smartnotes import SmartNotes
@@ -18,8 +19,8 @@ from flask import render_template
 from pymongo import Connection
 
 # Application configurations
-DB_NAME = "snotes"  # Defines the database name for the application
-
+# Defines the database name for the application
+DB_NAME = "snotes"
 
 snotes = SmartNotes(DB_NAME)  # Creates a SmartNotes object
 app = Flask(__name__)  # Creates a Flask application object
@@ -27,6 +28,11 @@ app = Flask(__name__)  # Creates a Flask application object
 @app.route("/", methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
+
+@app.route("/about/", methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
 
 
 @app.route("/addnote/", methods=['GET', 'POST'])
@@ -211,4 +217,7 @@ def insertNote(note, ipAddr, tStamp):
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0',port=8000)
-    app.run(host='0.0.0.0', debug=True)
+    # app.run(host='0.0.0.0', debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+    # app.run(host='0.0.0.0', port=57013)

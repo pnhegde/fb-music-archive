@@ -31,7 +31,9 @@ class SmartNotes:
             by creating the required database
             and collections.
         """
+        
         self.con = Connection()  # Open a connection with mongoDB
+        # self.con = Connection(self.mongodb_uri)  # Open a connection with mongoDB
         self.db = self.con[dbName]  # Get the reference to the db
         self.colNotes = self.db["notes"]  # Get the reference to the notes collection
         self.colSim = self.db["sim"]  # Get the reference to the sim collection

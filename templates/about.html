@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>SmartNotes</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-responsive.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+
+        <!--[if lt IE 9]>
+            <script src="js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+
+        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="/">SmartNotes</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><a href="/about/">About</a></li>
+                            <li style="display:none;"><a href="/contact/">Contact</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <section>
+                <h4>What is SmartNotes?</h4>
+                <p>
+                    <a href="/">SmartNotes</a> is a small web application to take notes of the things you need
+                    to remember on your day-to-day basis.
+                    <br/>
+                    SmartNotes is an intelligent application which follows the triangle
+                    of intelligence rule as follows
+                </p>
+                <h4>How to use SmartNotes?</h4>
+                <p>
+                    SmartNotes has an intuitive User Interface.
+                    <br/>
+                    <ul>
+                        <li>As soon as the webpage loads, the user will be presented with a set of notes that he has entered
+                    previously.<br/></li>
+                        <li>The user is given an option to,
+                            <ul>
+                                <li>Add a new note.</li>
+                                <li>Delete existing notes.</li>
+                                <li>Find notes similar to a particluar note.</li>
+                                <li>Search for notes based on any keyword.</li>
+                            </ul>
+                        </li>
+                        <li>Adding a note requires the user to type in his note in a region provided as shown below 
+                            <br/>
+                            <img src="{{url_for('static', filename='img/scr/save_help.jpg')}}"/>
+                            <br/>
+                        and click on save.<br/></li>
+                        <li>As soon as the note is saved, it gets two more options,
+                            <ul>
+                                <li>Delete</li>
+                                <li>Similar</li>
+                            </ul>
+                                <img src="{{url_for('static', filename='img/scr/two_options_help.jpg')}}"/>
+                            <br/>
+                            The <em>delete</em> option deletes that particular note.
+                            <br/>
+                            The <em>similar</em> option finds a set of notes similar to the clicked note as shown below,
+                            <br/>
+                            <br/>
+                                <img src="{{url_for('static', filename='img/scr/sim_score.jpg')}}"/>
+                            <br/>
+                            <br/>
+                            and shows the similarity value as well in the corner of the each note with a red background.
+                            <br/>
+                            Jaccard Similarity is the method used to measure the similarity in this application.
+                            <br/>
+                            Jaccard Similarity can be represented mathematically as follows,
+                            <br/>
+                            <br/>
+                            <pre>similarity_value = intersection(termListA, termListB) / union(termListA, termListB)</pre>
+                            where,
+                            <br/>
+                            <strong>termListA</strong> is the term list of note A
+                            <br/>
+                            <strong>termListB</strong> is the term list of note B
+                            <br/>
+                            <strong>similarity_value</strong> is the final similarity value evaluated by the formula
+                            <br/>
+                        </li>
+                        <li>
+                            The search bar at the top right allows the user to search for a note in the set of notes the user
+                            <br/>
+                            has previously saved. A relevance score is shown at the top-right corner of the notes that appear
+                            <br/>
+                            in the search results as shown below.
+                            <br/>
+                            <br/>
+                                <img src="{{url_for('static', filename='img/scr/search_score.jpg')}}"/>
+                            <br/>
+                            <br/>
+                            The relevance score is computed as the ratio of number of terms in the query by 
+                            <br/>
+                            number of terms in query that are actually matched in the note. It can be represented mathematically as follows,
+                            <br/>
+                            <br/>
+                            <pre>relevance_score = (number of words in query) / (number of words found in the note)</pre>
+                            <br/>
+                        </li>
+                    </ul>
+                </p>
+                <h4>How was this built?</h4>
+                <p>
+                    This intelligent web application was built using the following technologies,
+                    <ul>
+                        <li><a href="http://python.org/download/releases/2.7.3/">Python2.7</a> programming language</li>
+                        <li><a href="http://www.mongodb.org/">MongoDB</a>, a scalable non-relational database</li>
+                        <li><a href="http://flask.pocoo.org/">Flask</a> web application framework</li>
+                        <li>HTML5 and CSS3 via <a href="http://www.initializr.com/">initializr.com</a></li>
+                        <li>Couple of third party python libraries like <a href="http://nltk.org/">nltk (Natural Language Toolkit)</a>, <a href="http://api.mongodb.org/python/current/">Pymongo</a>, etc.</li>
+                    </ul>
+                </p>
+                <h4>Who?</h4>
+                <p>
+                    <strong>Sandeep Raju P</strong><br/>
+                    <strong>USN</strong> 1PI09CS081<br/>
+                    <strong>CLASS</strong> 7th Semester, 'B' Section<br/>
+                    <strong>SOURCE CODE</strong> available at <a href="https://bitbucket.org/sandeep080/smart-notes/src">bitbucket.org</a>
+                </p>
+            </section>
+
+            <hr>
+
+            <footer>
+                <p>&copy; Sandeep Raju 2012</p>
+            </footer>
+            <div class="error-message">Looks like you are not connected to the internet!<br>Please try again...</div>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{{url_for('static', filename='js/vendor/jquery-1.8.2.min.js')}}"><\/script>')</script>
+
+        <script src="{{url_for('static', filename='js/vendor/bootstrap.min.js')}}"></script>
+
+        <!-- <script src="{{url_for('static', filename='js/main.js')}}"></script> -->
+
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
