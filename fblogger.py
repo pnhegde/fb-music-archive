@@ -12,7 +12,7 @@ import BeautifulSoup
 token = "BAACEdEose0cBAFm4SfbZBlp9TTAYZBrFRIrQW7cmz3pVlDkYJR9uZCZB7bZA440sZBbL6Ho4GqivWUZC0RJwVNffnnwpShsGtDZBVMridYsLdvuuWibIZAdVS"
 
 def extract(comments):
-	con = pymongo.Connection(os.getenv('MONGOHQ_URL'))
+	con = Connection(os.getenv('MONGOHQ_URL'))
 	collection = con['music']['comments']
 	for comment in comments:
 		logger = {}
