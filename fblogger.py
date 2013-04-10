@@ -28,7 +28,7 @@ def extract(comments):
 			if cursor.count() != 0:
 				print "already exist"
 				continue
-			logger["pageTitle"] = BeautifulSoup.BeautifulSoup(urllib.urlopen(logger["message"])).title.string
+			logger["pageTitle"] = BeautifulSoup.BeautifulSoup(urllib.urlopen(str(logger["message"]))).title.string
 			collection.insert(logger, safe=True)
 def fetch():
 	graph = facebook.GraphAPI(token)
