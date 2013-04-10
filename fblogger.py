@@ -9,7 +9,7 @@ import unicodedata
 import urllib
 import BeautifulSoup
 
-token = "BAACEdEose0cBAFm4SfbZBlp9TTAYZBrFRIrQW7cmz3pVlDkYJR9uZCZB7bZA440sZBbL6Ho4GqivWUZC0RJwVNffnnwpShsGtDZBVMridYsLdvuuWibIZAdVS"
+token = "BAACEdEose0cBAFmb7ne12IPWWF19kGTKALWu1oYvWqaqZCdIljnc5cKw5ecnKqz0B72nPYnXSvdCY0dzNJk1ro5WIpEHLieGhAp8ZC3KZCevoPhgIWp"
 
 def extract(comments):
 	con = Connection(os.getenv('MONGOHQ_URL'))
