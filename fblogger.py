@@ -4,6 +4,7 @@ import facebook
 import re
 import pymongo
 from pymongo import Connection
+import os
 import unicodedata
 import lxml.html
 
