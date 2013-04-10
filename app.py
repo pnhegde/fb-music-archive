@@ -32,7 +32,8 @@ def getSong():
         # GET request
         num = urllib2.unquote(request.args.get('num', ''))  # Fetching the num of songs to be fetched
 
-    con = Connection()["music"]["comments"]
+    coll = pymongo.Connection(os.getenv('MONGOHQ_URL'))	
+    con = coll["music"]["comments"]
     songs = list(con.find().sort("name"))
     response = {}
     response["success"] = "true"

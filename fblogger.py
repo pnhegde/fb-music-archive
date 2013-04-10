@@ -6,7 +6,8 @@ import pymongo
 from pymongo import Connection
 import os
 import unicodedata
-import lxml.html
+import urllib
+import BeautifulSoup
 
 token = "BAACEdEose0cBAAZBbG5vcL0E4uwM4ZBeHFGHWg2EGW9Vek0ZB1dNUsO858DmpHF2xZALgqZB02e0vupTRanW3896pN7P1IHWCaIWjViRf3z7i3V5xNpA6"
 
@@ -27,7 +28,7 @@ def extract(comments):
 			if cursor.count() != 0:
 				print "already exist"
 				continue
-			logger["pageTitle"] =lxml.html.parse(logger['message']).find(".//title").text
+			logger["pageTitle"] = BeautifulSoup.BeautifulSoup(urllib.urlopen(logger["message"])).title.string
 			collection.insert(logger, safe=True)
 def fetch():
 	graph = facebook.GraphAPI(token)
