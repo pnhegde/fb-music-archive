@@ -7,7 +7,7 @@ from pymongo import Connection
 import unicodedata
 import lxml.html
 
-token = "BAACEdEose0cBAPJ59ytZAetZBNd4ZBJ8OlTB6iOXYQz9DsyPZCIjDYQwdzXr2VfbiVBsZAcGuZB0wijMlXjvC2tvnr8QZCx4oGfe8bVZA5um9528dSN8hPbZA"
+token = "BAACEdEose0cBAAZBbG5vcL0E4uwM4ZBeHFGHWg2EGW9Vek0ZB1dNUsO858DmpHF2xZALgqZB02e0vupTRanW3896pN7P1IHWCaIWjViRf3z7i3V5xNpA6"
 
 def extract(comments):
 	collection = Connection()['music']['comments']
