@@ -9,7 +9,7 @@ import unicodedata
 import urllib
 import BeautifulSoup
 
-token = "BAACEdEose0cBAAZBbG5vcL0E4uwM4ZBeHFGHWg2EGW9Vek0ZB1dNUsO858DmpHF2xZALgqZB02e0vupTRanW3896pN7P1IHWCaIWjViRf3z7i3V5xNpA6"
+token = "BAACEdEose0cBAFm4SfbZBlp9TTAYZBrFRIrQW7cmz3pVlDkYJR9uZCZB7bZA440sZBbL6Ho4GqivWUZC0RJwVNffnnwpShsGtDZBVMridYsLdvuuWibIZAdVS"
 
 def extract(comments):
 	con = pymongo.Connection(os.getenv('MONGOHQ_URL'))
