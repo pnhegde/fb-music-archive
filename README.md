@@ -1,12 +1,13 @@
-# SmartNotes v0.1.3
+# Music Archive v0.1.1
 
 ## About
 
-SmartNotes is a smart note taking web application written using using Flask, MongoDB, HTML5, CSS3 & jQuery
+Music Archive is a smart music browsing web application written using using Flask, MongoDB, HTML5, CSS3 & jQuery
+
 
 ## Dependencies
 
-SmartNotes depends on the following,
+Music Archive depends on the following,
 
 * Flask v0.9
 * Pymongo v2.3
@@ -14,8 +15,7 @@ SmartNotes depends on the following,
 
 ## Author
 
-Written for the love of building smart applications!
 
-Sandeep Raju P
-* [me@sandeepraju.in](mailto:me@sandeepraju.in)
-* [sandeepraju.in](http://sandeepraju.in)
+Phaneendra Hegde
+* [phaneendra.hegde@gmail.com](mailto:phaneendra.hegde@gmail.com)
+* [pnhegde.in](http://pnhegde.in)

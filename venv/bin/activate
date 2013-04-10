@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelavent variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/sandeep/i/aiw/smartnotes/venv"
+VIRTUAL_ENV="/home/pnh/Code/fb-music-archive/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
