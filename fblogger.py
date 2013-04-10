@@ -12,7 +12,7 @@ token = "BAACEdEose0cBAAZBbG5vcL0E4uwM4ZBeHFGHWg2EGW9Vek0ZB1dNUsO858DmpHF2xZALgq
 
 def extract(comments):
 	con = pymongo.Connection(os.getenv('MONGOHQ_URL'))
-	collection = con['comments']
+	collection = con['music']['comments']
 	for comment in comments:
 		logger = {}
 		if isinstance(comment["message"], unicode):
