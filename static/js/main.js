@@ -19,19 +19,19 @@ $("document").ready(function() {
         }
     });
 
-    $.get("getCategory/")
-    .success(function(data) {
-        data = JSON.parse(data);
-        if(data["success"] == "true") {
-            for(var i = 0; i < data["categories"].length; i++) {
-                var urlHtml = "<li><a href= 'getComingSoon/'> "+data["categories"][i]+" </a></li>";
-                $(".nav-list").append(urlHtml);
+    // $.get("getCategory/")
+    // .success(function(data) {
+    //     data = JSON.parse(data);
+    //     if(data["success"] == "true") {
+    //         for(var i = 0; i < data["categories"].length; i++) {
+    //             var urlHtml = "<li><a href= 'getComingSoon/'> "+data["categories"][i]+" </a></li>";
+    //             $(".nav-list").append(urlHtml);
 
-            }
-        }
-        else {
-            // Was not able to fetch url successfully
-            console.log("error while fetching cetegory");
-        }
-    });
+    //         }
+    //     }
+    //     else {
+    //         // Was not able to fetch url successfully
+    //         console.log("error while fetching cetegory");
+    //     }
+    // });
 });
