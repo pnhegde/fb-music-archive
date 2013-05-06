@@ -17,7 +17,7 @@ $("document").ready(function() {
             // Was not able to fetch url successfully
             console .log("error while fetching cetegory");
         }
-    })
+    });
 
     $.get("getCategory/")
     .success(function(data) {
