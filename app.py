@@ -27,7 +27,7 @@ def about():
 def getUrl():
     coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
     conn = coll['music']['archive']
-    songs = list(conn.find().sort("name").limit(50))
+    songs = list(conn.find().limit(50))
     response = {}
     response["success"] = "true"
     print response
@@ -49,16 +49,16 @@ def getUrl():
     return json.dumps(response)
 
 
-# @app.route("/getCategory/", methods=['GET', 'POST'])
-# def getCategory():
-#     coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
-#     conn = coll['music']['archive']
-#     categories = list(conn.distinct('category'))
-#     response = {}
-#     response["success"] = "true"
-#     print response
-#     response["categories"] = categories
-#     return json.dumps(response)
+@app.route("/getCategory/", methods=['GET', 'POST'])
+def getCategory():
+    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    conn = coll['music']['archive']
+    categories = list(conn.distinct('category'))
+    response = {}
+    response["success"] = "true"
+    print response
+    response["categories"] = categories
+    return json.dumps(response)
 
 
 @app.route("/getComingSoon/")
