@@ -15,23 +15,23 @@ $("document").ready(function() {
         }
         else {
             // Was not able to fetch url successfully
-            showErrorMessage();
+            console .log("error while fetching cetegory");
         }
     })
 
-    // $.get("getCategory/")
-    // .success(function(data) {
-    //     data = JSON.parse(data);
-    //     if(data["success"] == "true") {
-    //         for(var i = 0; i < data["categories"].length; i++) {
-    //             var urlHtml = "<li><a href= 'getComingSoon/'> "+data["categories"][i]+" </a></li>";
-    //             $(".nav-list").append(urlHtml);
+    $.get("getCategory/")
+    .success(function(data) {
+        data = JSON.parse(data);
+        if(data["success"] == "true") {
+            for(var i = 0; i < data["categories"].length; i++) {
+                var urlHtml = "<li><a href= 'getComingSoon/'> "+data["categories"][i]+" </a></li>";
+                $(".nav-list").append(urlHtml);
 
-    //         }
-    //     }
-    //     else {
-    //         // Was not able to fetch url successfully
-    //         showErrorMessage();
-    //     }
-    // });
+            }
+        }
+        else {
+            // Was not able to fetch url successfully
+            console.log("error while fetching cetegory");
+        }
+    });
 });
