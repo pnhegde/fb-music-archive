@@ -22,13 +22,14 @@
   .url-list {
     list-style-type: none;
     overflow: auto;
+    margin-top: 20px;
   }
 
   .url {
     position: relative;
-    width: 1030px;
-    min-height: 40px;
-    background-color: #EFEEEC;
+    width: 830px;
+    min-height: 140px;
+    background-color: #DDDDDD;
     float: left;
     margin: 10px;
 
@@ -44,139 +45,143 @@
     transition: all 500ms ease;*/
   }
 
-  .url:hover {
+  /* .url:hover {
     -moz-transform: scale(1) translateX(2px) translateY(1px) skewX(0deg) skewY(0deg);
     -webkit-transform: scale(1)  translateX(2px) translateY(1px) skewX(0deg) skewY(0deg);
     -o-transform: scale(1) translateX(2px) translateY(1px) skewX(0deg) skewY(0deg);
     -ms-transform: scale(1) translateX(2px) translateY(1px) skewX(0deg) skewY(0deg);
     transform: scale(1) translateX(2px) translateY(1px) skewX(0deg) skewY(0deg);
-  }
-  .url-textarea:hover{
-    /*font-size: 14px;*/
-    color: #0F0F0F;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .url-textarea, .url-textarea:focus {
-    width: 1000px;
-    min-height: 30px;
-    position: relative;
-    top: 5px;
-    display: block;
-    margin: auto;
-    resize: none;
-    outline: 0px;
-    border: 0px;
-    color: #5B5755;
     background-color: #EFEEEC;
-    font-family: 'Verdana', cursive;
-    font-size: 13px;
-    font-weight: bold;
-    -webkit-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
-    -moz-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
-    -o-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
-    box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
-  }
-  .url-menu {
-    list-style-type: none;
-    overflow: auto;
-    font-family: 'Verdana', sans-serif;
-    font-size: 10px;
-    color: #6C7556;
-    float: right;
-    margin-right: 15px;
-  }
+    } */
+    .url:hover{
+      background-color: #EFEEEC;
+    }
+    .url-textarea:hover {
+      background-color: #EFEEEC;
+      cursor: pointer;
+      text-decoration: underline;
+      color: #0F0F0F;
+    }
+    .url:hover + .url-textarea {
+      background-color: #EFEEEC;
+    }
+    .url-textarea, .url-textarea:focus {
+      width: 800px;
+      min-height: 30px;
+      position: relative;
+      top: 5px;
+      display: block;
+      margin: auto;
+      resize: none;
+      outline: 0px;
+      border: 0px;
+      color: #5B5755;
+      background-color: #DDDDDD;
+      font-family: 'Verdana', cursive;
+      font-size: 13px;
+      font-weight: bold;
+      -webkit-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+      -moz-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+      -o-box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+      box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0);
+    }
+    .url-menu {
+      list-style-type: none;
+      overflow: auto;
+      font-family: 'Verdana', sans-serif;
+      font-size: 10px;
+      color: #6C7556;
+      float: right;
+      margin-right: 15px;
+    }
 
-  .url-menu-item {
-    width: 60px;
-    margin-top: 5px;
-    margin-left: 5px;
-    /*cursor: pointer;*/
-  }
+    .url-menu-item {
+      width: 60px;
+      margin-top: 5px;
+      margin-left: 5px;
+      /*cursor: pointer;*/
+    }
 
-  .url-menu-item:hover {
-    text-decoration: underline;
-  }
 
-  .error-message {
-    position: fixed;
-    width: 200px;
-    padding: 10px;
-    left: -600px;
-    color: #B80000;
-    background-color: rgba(0, 0, 0, 0.2);
-    text-align: right;
+    .error-message {
+      position: fixed;
+      width: 200px;
+      padding: 10px;
+      left: -600px;
+      color: #B80000;
+      background-color: rgba(0, 0, 0, 0.2);
+      text-align: right;
 
-    -webkit-border-radius: 0px 15px 15px 0px;
-    border-radius: 0px 15px 15px 0px;
+      -webkit-border-radius: 0px 15px 15px 0px;
+      border-radius: 0px 15px 15px 0px;
 
-    -webkit-transition: all 1000ms ease;
-    -moz-transition: all 1000ms ease;
-    -ms-transition: all 1000ms ease;
-    -o-transition: all 1000ms ease;
-    transition: all 1000ms ease;
-  }
+      -webkit-transition: all 1000ms ease;
+      -moz-transition: all 1000ms ease;
+      -ms-transition: all 1000ms ease;
+      -o-transition: all 1000ms ease;
+      transition: all 1000ms ease;
+    }
 
-  .corner {
-    position: absolute;
-    z-index: 1;
-    right: 0px;
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    border-right:20px solid red;
-    border-top: 20px solid red;
-    color: #ffffff;
-    cursor: default;
-  }
+    .corner {
+      position: absolute;
+      z-index: 1;
+      right: 0px;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-right:20px solid red;
+      border-top: 20px solid red;
+      color: #ffffff;
+      cursor: default;
+    }
 
-  .corner-text {
-    position: relative;
-    top: -22px;
-    left: -5px;
-    font-size: 12px;
-    font-weight: bold;
-  }
+    .corner-text {
+      position: relative;
+      top: -22px;
+      left: -5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-  .no-result {
-    font-size: 20px;
-    font-weight: bold;
-  }
+    .no-result {
+      font-size: 20px;
+      font-weight: bold;
+    }
 
-  .back-button {
-    position: fixed;
-    top: 100px;
-    left: -110px;
-    /*left: 0px;*/
-    width: 100px;
-    height: 30px;
-    background-color: #ffffff;
-    text-align: right;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    -webkit-border-radius: 0px 15px 15px 0px;
-    border-radius: 0px 15px 15px 0px;
-    -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, 0.3);
-    box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, 0.3);
-    font-weight: bold;
-    color: #222;
-    cursor: pointer;
+    .back-button {
+      position: fixed;
+      top: 100px;
+      left: -110px;
+      /*left: 0px;*/
+      width: 100px;
+      height: 30px;
+      background-color: #ffffff;
+      text-align: right;
+      padding-right: 10px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      -webkit-border-radius: 0px 15px 15px 0px;
+      border-radius: 0px 15px 15px 0px;
+      -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, 0.3);
+      box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+      color: #222;
+      cursor: pointer;
 
-    -webkit-transition: all 500ms ease;
-    -moz-transition: all 500ms ease;
-    -ms-transition: all 500ms ease;
-    -o-transition: all 500ms ease;
-    transition: all 500ms ease;
-  }
+      -webkit-transition: all 500ms ease;
+      -moz-transition: all 500ms ease;
+      -ms-transition: all 500ms ease;
+      -o-transition: all 500ms ease;
+      transition: all 500ms ease;
+    }
 
-  .back-button:hover {
-    background-color: #CCEEFF;
-  }
+    .back-button:hover {
+      background-color: #CCEEFF;
+    }
 
-  .back-button-text {
-    position: relative;
-    top: 6px;
-  }
+    .back-button-text {
+      position: relative;
+      top: 6px;
+    }

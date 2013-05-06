@@ -10,10 +10,10 @@ import urllib
 import lxml.html
 from xml.dom import minidom
 
-token = "BAACEdEose0cBAEz1GZAgh3UAt3IWgUa8Kgfl6YEcKhaN7iZBuXEKN3ZBugHNDDfxHjkdT486jY3acgt4OqEh4yt1pCPA8gTNX20fZAaKHbHyZCUi5P4PQ"
+token = "BAACEdEose0cBAKoXqoxihT0kdIsN2uRgJELsbYRk9Ye77YwegnZCZBUSfQs4jigoZACfF3SgKFZBrd8SDvrQ7vK1YuKpJcfl1NNWZBx3qRsMFr9ZBZBSv4WX0GAbylOpZCAJqNgbTanGZBJzpL5qM8rP6Q36jfnHnIJZC6X2UngMt05EFSvah1Vf3ZAbglzmp2xBJP7SdgF9JGiVxHxlpqKRTmKUPS2O407ovSvtYZCroHYlrAZDZD"
 
 def extract(comments):
-    con = Connection('mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
+    con = Connection()#'mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
     collection = con['music']['archive']
 
     for comment in comments:
@@ -71,7 +71,7 @@ def extract(comments):
 
 def fetch():
     graph = facebook.GraphAPI(token)
-    comments = graph.get_object("397729806942347/comments", limit=1000)
+    comments = graph.get_object("397729806942347/comments", limit=25)
     data = comments["data"]
     extract(data)
 

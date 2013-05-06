@@ -32,26 +32,45 @@ def getSong():
         # GET request
         num = urllib2.unquote(request.args.get('num', ''))  # Fetching the num of songs to be fetched
 
-    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")	
-    conn = coll['music']['comments']
+    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    conn = coll['music']['archive']
     songs = list(conn.find().sort("name"))
     response = {}
     response["success"] = "true"
-    print response	 
+    print response
     response["songs"] = []
 
     count = 0
     for song in songs:
         temp = {}
-        temp["id"] = str(song["comId"])
-        temp["title"] = song["pageTitle"]
-        temp["url"] = song["message"]
+        temp["id"] = str(song["urlID"])
+        temp["title"] = song["title"]
+        temp["url"] = song["url"]
+        temp['category'] = song["category"]
+        temp['thumbnail'] = song["thumbnail"]
         temp["name"] = song["name"]
         response["songs"].append(temp)
         count += 1
 
     response["num"] = count
     return json.dumps(response)
+
+
+@app.route("/getCategory/", methods=['GET', 'POST'])
+def getCategory():
+    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    conn = coll['music']['archive']
+    categories = list(conn.distinct('category'))
+    response = {}
+    response["success"] = "true"
+    print response
+    response["categories"] = categories
+    return json.dumps(response)
+
+
+@app.route("/getComingSoon/")
+def getComingSoon():
+    return render_template('comingSoon.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
