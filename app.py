@@ -23,15 +23,8 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route("/geturl", methods=['GET', 'POST'])
+@app.route("/geturl/", methods=['GET', 'POST'])
 def getUrl():
-    # if request.method == 'POST':
-    #     # POST request
-    #     num = urllib2.unquote(request.form['num'])  # Fetching the num of songs to be fetched
-    # else:
-    #     # GET request
-    #     num = urllib2.unquote(request.args.get('num', ''))  # Fetching the num of songs to be fetched
-
     coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
     conn = coll['music']['archive']
     songs = list(conn.find().sort("name").limit(50))
