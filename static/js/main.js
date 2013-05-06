@@ -1,5 +1,5 @@
 $("document").ready(function() {
-    $.get("geturl/", {"num" : "500"})
+    $.get("geturl/", {"num" : "50"})
     .success(function(data) {
         data = JSON.parse(data);
         if(data["success"] == "true") {

@@ -34,7 +34,7 @@ def getSong():
 
     coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
     conn = coll['music']['archive']
-    songs = list(conn.find().sort("name"))
+    songs = list(conn.find().sort("name").limit(50))
     response = {}
     response["success"] = "true"
     print response
