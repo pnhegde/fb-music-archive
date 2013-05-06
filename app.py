@@ -23,7 +23,7 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route("/geturl/", methods=['GET', 'POST'])
+@app.route("/geturl", methods=['GET', 'POST'])
 def getUrl():
     # if request.method == 'POST':
     #     # POST request
