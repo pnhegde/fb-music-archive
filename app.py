@@ -23,14 +23,13 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route("/geturl/", methods=['GET', 'POST'])
-def getUrl():
+@app.route("/geturl/")
+def geturl():
     coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
     conn = coll['music']['archive']
-    songs = list(conn.find().limit(50))
+    songs = list(conn.find().limit(35))
     response = {}
     response["success"] = "true"
-    print response
     response["songs"] = []
 
     count = 0
