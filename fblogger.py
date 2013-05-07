@@ -13,7 +13,7 @@ from xml.dom import minidom
 token = "BAACEdEose0cBAKoXqoxihT0kdIsN2uRgJELsbYRk9Ye77YwegnZCZBUSfQs4jigoZACfF3SgKFZBrd8SDvrQ7vK1YuKpJcfl1NNWZBx3qRsMFr9ZBZBSv4WX0GAbylOpZCAJqNgbTanGZBJzpL5qM8rP6Q36jfnHnIJZC6X2UngMt05EFSvah1Vf3ZAbglzmp2xBJP7SdgF9JGiVxHxlpqKRTmKUPS2O407ovSvtYZCroHYlrAZDZD"
 
 def extract(comments):
-    con = Connection()#'mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
+    con = Connectio('mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
     collection = con['music']['archive']
 
     for comment in comments:

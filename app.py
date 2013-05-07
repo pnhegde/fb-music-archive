@@ -5,6 +5,7 @@ import datetime
 import bson.json_util
 import urllib2
 import os
+import operator
 
 from flask import Flask
 from flask import request
@@ -57,6 +58,36 @@ def getCategory():
     response["success"] = "true"
     print response
     response["categories"] = categories
+    return json.dumps(response)
+
+@app.route("/getTopUsers/", methods=['GET', 'POST'])
+def getTopUsers():
+    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    conn = coll['music']['archive']
+    users = list(conn.distinct('name'))
+
+    submitCount = []
+    for  user in users:
+        submitCount.append( conn.find({'name':user}).count() )
+
+    u = {}
+    i = 0
+    for user in users:
+        u[user] = submitCount[i]
+        i+=1
+
+    sorted_u = sorted(u.iteritems(), key=operator.itemgetter(1),reverse=True)
+    del sorted_u[10:]
+    print sorted_u
+    response = {}
+    response["success"] = "true"
+    response["users"] = []
+    for toup in sorted_u :
+        u = {}
+        u['user'] = toup[0]
+        u['count'] = toup[1]
+        response["users"].append(u)
+    print response
     return json.dumps(response)
 
 

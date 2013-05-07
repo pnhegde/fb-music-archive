@@ -34,4 +34,20 @@ $("document").ready(function() {
             console.log("error while fetching cetegory");
         }
     });
+
+    $.get("getTopUsers/")
+    .success(function(data) {
+        data = JSON.parse(data);
+        if(data["success"] == "true") {
+            for(var i = 0; i < data["users"].length; i++) {
+                var urlHtml = "<li><a href= 'getComingSoon/'> "+data["users"][i]['user']+" </a></li>";
+                $(".user-list").append(urlHtml);
+
+            }
+        }
+        else {
+            // Was not able to fetch url successfully
+            console.log("error while fetching cetegory");
+        }
+    });
 });
