@@ -101,7 +101,14 @@
       margin-left: 5px;
       /*cursor: pointer;*/
     }
-
+.user-list {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 3px;
+}
+.user-list li {
+  padding: 3px;
+}
 
     .error-message {
       position: fixed;
