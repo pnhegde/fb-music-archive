@@ -71,7 +71,7 @@ def extract(comments):
 
 def fetch():
     graph = facebook.GraphAPI(token)
-    comments = graph.get_object("397729806942347/comments", limit=25)
+    comments = graph.get_object("397729806942347/comments", limit=1000)
     data = comments["data"]
     extract(data)
 
