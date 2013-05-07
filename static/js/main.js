@@ -7,8 +7,8 @@ $("document").ready(function() {
             for(var i = 0; i < data["num"]; i++) {
                 var urlHtml = "<li class=\"url\" id=\"" + data['songs'][i]["id"] + "\" new=\"false\" mod=\"false\"> \
                 <div class=\"url-textarea\" title=\"Open this link\" onclick=\"window.open('"+data['songs'][i]['url']+"')\">" + data["songs"][i]["title"] + "</div> \
-                <div class=\"url-menu\" > Category: <strong>"+ data['songs'][i]['category']+" </strong> submitted by - <strong>"+data["songs"][i]["name"]+"</strong></div> \
-                <br/><img src='"+data['songs'][i]['thumbnail']+"' /></li>";
+                <div class=\"url-menu\" > Category: <strong>"+ data['songs'][i]['category']+" &nbsp&nbsp&nbsp </strong> submitted by: <strong>"+data["songs"][i]["name"]+"</strong></div> \
+                <br/><img src='"+data['songs'][i]['thumbnail']+"' style='margin-left: 3px; margin-bottom: 2px;'/> <a href='#' class='url-menu'> Find similar </a></li>";
                 $(".url-list").append(urlHtml);
 
             }
