@@ -10,10 +10,10 @@ import urllib
 import lxml.html
 from xml.dom import minidom
 
-token = "BAACEdEose0cBAKoXqoxihT0kdIsN2uRgJELsbYRk9Ye77YwegnZCZBUSfQs4jigoZACfF3SgKFZBrd8SDvrQ7vK1YuKpJcfl1NNWZBx3qRsMFr9ZBZBSv4WX0GAbylOpZCAJqNgbTanGZBJzpL5qM8rP6Q36jfnHnIJZC6X2UngMt05EFSvah1Vf3ZAbglzmp2xBJP7SdgF9JGiVxHxlpqKRTmKUPS2O407ovSvtYZCroHYlrAZDZD"
+token = "BAACEdEose0cBALtV3WlFuqe8MDi5APDgyePMtFFWThXIAokmKl07hu8M6nxpL580ZB2GkJ51rzw73aN4vgoMVkYDJiB5nwLUmO0PoXJr4TM2fIiflOKBGnEYW7aSRNWwPhFc9nxBduASYBCH5PenkLeIrhNBtHUPsV4E7t4VIj5FKFNJOTdMBG2dplAyNy1BlMWyO8yP1wFwr2bnpazM4Uu7o035R5DhATNiO6AZDZD"
 
 def extract(comments):
-    con = Connectio('mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
+    con = Connection('mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
     collection = con['music']['archive']
 
     for comment in comments:
