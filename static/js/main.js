@@ -40,7 +40,7 @@ $("document").ready(function() {
         data = JSON.parse(data);
         if(data["success"] == "true") {
             for(var i = 0; i < data["users"].length; i++) {
-                var urlHtml = "<li><a href= 'getComingSoon/'> "+data["users"][i]['user']+" </a></li>";
+                var urlHtml = "<li><a href= 'getComingSoon/'> "+data["users"][i]['user']+" - "+data["users"][i]['count']+" </a>  </li>";
                 $(".user-list").append(urlHtml);
 
             }
