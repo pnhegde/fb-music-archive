@@ -3,7 +3,7 @@
 ## About
 
 Music Archive is a smart music browsing web application written using using Flask, MongoDB, HTML5, CSS3 & jQuery
-
+This is an intelligent music archive which fetches music/videos posted on a facebook post/comment thread and provides many features on top of it. 
 
 ## Dependencies
 
