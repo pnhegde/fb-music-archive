@@ -26,7 +26,7 @@ def about():
 
 @app.route("/geturl/")
 def geturl():
-    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    coll = Connection()
     conn = coll['music']['archive']
     songs = list(conn.find().limit(35))
     response = {}
@@ -51,7 +51,7 @@ def geturl():
 
 @app.route("/getCategory/", methods=['GET', 'POST'])
 def getCategory():
-    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    coll = Connection()
     conn = coll['music']['archive']
     categories = list(conn.distinct('category'))
     response = {}
@@ -62,7 +62,7 @@ def getCategory():
 
 @app.route("/getTopUsers/", methods=['GET', 'POST'])
 def getTopUsers():
-    coll = Connection("mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music")
+    coll = Connection()
     conn = coll['music']['archive']
     users = list(conn.distinct('name'))
 

@@ -73,20 +73,20 @@
                   <div class="well sidebar-nav">
                     <ul class="nav user-list ">
                         <li class="nav-header">Top 10 Contributors</li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-  </div>
-  <button class="btn  btn-large"> &laquo; Previous  </button>
-  <button class="btn  btn-large pull-right"> Next &nbsp &nbsp&nbsp &raquo; </button>
-  <hr>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn  btn-large"> &laquo; Previous  </button>
+    <button class="btn  btn-large pull-right" onclick="nextPage()"> Next &nbsp &nbsp&nbsp &raquo; </button>
+    <hr>
 
-  <footer>
-    <p>&copy; Phaneendra Hegde 2013</p>
-</footer>
-<div class="error-message">Looks like you are not connected to the internet!<br>Please try again...</div>
-<div class="back-button"><span class="back-button-text"><i class="icon-circle-arrow-left"></i> Back</span></div>
+    <footer>
+        <p>&copy; Phaneendra Hegde 2013</p>
+    </footer>
+    <div class="error-message">Looks like you are not connected to the internet!<br>Please try again...</div>
+    <div class="back-button"><span class="back-button-text"><i class="icon-circle-arrow-left"></i> Back</span></div>
 </div> <!-- /container -->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -95,7 +95,31 @@
 <script src="{{url_for('static', filename='js/vendor/bootstrap.min.js')}}"></script>
 
 <script src="{{url_for('static', filename='js/main.js')}}"></script>
+<script type="text/javascript">
+var pageNo = 1
+function nextPage () {
+    $.get("geturl/",{"pageno":pageNo})
+    .success(function(data) {
+        data = JSON.parse(data);
+        if(data["success"] == "true") {
+            // url fetched successfully
+            for(var i = 0; i < data["num"]; i++) {
+                var urlHtml = "<li class=\"url\" id=\"" + data['songs'][i]["id"] + "\" new=\"false\" mod=\"false\"> \
+                <div class=\"url-textarea\" title=\"Open this link\" onclick=\"window.open('"+data['songs'][i]['url']+"')\">" + data["songs"][i]["title"] + "</div> \
+                <div class=\"url-menu\" > Category: <strong>"+ data['songs'][i]['category']+" &nbsp&nbsp&nbsp </strong> submitted by: <strong>"+data["songs"][i]["name"]+"</strong></div> \
+                <br/><img src='"+data['songs'][i]['thumbnail']+"' style='margin-left: 3px; margin-bottom: 2px;'/> <a href='getComingSoon/' class='url-menu'> Find similar </a></li>";
+                $(".url-list").append(urlHtml);
 
+            }
+        }
+        else {
+            // Was not able to fetch url successfully
+            console .log("error while fetching cetegory");
+        }
+    });
+}
+
+</script>
 <script>
 var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
 (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];

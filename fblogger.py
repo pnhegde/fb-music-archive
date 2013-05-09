@@ -10,7 +10,7 @@ import urllib
 import lxml.html
 from xml.dom import minidom
 
-token = "BAACEdEose0cBALtV3WlFuqe8MDi5APDgyePMtFFWThXIAokmKl07hu8M6nxpL580ZB2GkJ51rzw73aN4vgoMVkYDJiB5nwLUmO0PoXJr4TM2fIiflOKBGnEYW7aSRNWwPhFc9nxBduASYBCH5PenkLeIrhNBtHUPsV4E7t4VIj5FKFNJOTdMBG2dplAyNy1BlMWyO8yP1wFwr2bnpazM4Uu7o035R5DhATNiO6AZDZD"
+token = "your token"
 
 def extract(comments):
     con = Connection('mongodb://pnhegde:appyfizz@dharma.mongohq.com:10017/music')
